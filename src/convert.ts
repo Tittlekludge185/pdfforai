@@ -51,7 +51,23 @@ export async function convertPdf(
   if (typeof input === "string") {
     // File path
     name = fileName || input.split("/").pop() || "document.pdf";
-    const fileBuffer = fs.readFileSync(input);
+    let fileBuffer: Buffer;
+    try {
+      fileBuffer = fs.readFileSync(input);
+    } catch (err: unknown) {
+      const e = err as NodeJS.ErrnoException;
+      if (e.code === "EPERM") {
+        throw new Error(
+          `Permission denied: ${input}\n\n` +
+          `On macOS, your terminal needs access to this folder.\n` +
+          `Go to: System Settings → Privacy & Security → Full Disk Access\n` +
+          `and enable your terminal app (Terminal, iTerm2, Warp, etc.).\n\n` +
+          `Alternatively, copy the file to a non-restricted location:\n` +
+          `  cp "${input}" /tmp/ && pdfforai /tmp/${input.split("/").pop()}`
+        );
+      }
+      throw err;
+    }
     buffer = new Uint8Array(fileBuffer).buffer as ArrayBuffer;
   } else if (Buffer.isBuffer(input)) {
     buffer = new Uint8Array(input).buffer as ArrayBuffer;
